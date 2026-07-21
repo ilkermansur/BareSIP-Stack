@@ -23,12 +23,12 @@ module_path             /usr/local/lib/baresip/modules
 
 # Core Modules
 module                  menu.so
-module                  contact.so
+# module                contact.so
 
 # Audio driver and format modules
 module                  aufile.so
 module                  g711.so
-module                  g722.so
+# module                g722.so
 
 # Control Interface Modules
 module                  ctrl_tcp.so
