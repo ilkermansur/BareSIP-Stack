@@ -28,7 +28,6 @@ bareSIP/
 ├── Dockerfile            # Multi-stage, platform-aware container build
 ├── docker-compose.yml    # Build from source code composition
 ├── single_image.yml      # Run pre-built Docker Hub image (imansur/baresip-ivr:latest)
-├── docker-compose.hub.yml# Alias for single_image.yml
 ├── entrypoint.sh         # Container startup script (Baresip daemon + FastAPI)
 ├── download_voices.sh    # Script to download Piper TTS voice models to host
 ├── config                # Headless Baresip configuration (bind-mounted)
@@ -74,8 +73,6 @@ Uses the official pre-compiled multi-arch image `imansur/baresip-ivr:latest`:
 
 ```bash
 docker compose -f single_image.yml up -d
-# or
-docker compose -f docker-compose.hub.yml up -d
 ```
 
 #### 🔸 Option B: Build from Source Code
