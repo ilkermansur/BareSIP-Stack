@@ -21,4 +21,4 @@ sleep 2
 # Konteyner FastAPI ile ayakta kalır; bu process ölürse konteyner durur
 # ─────────────────────────────────────────────────────────────
 echo "[Entrypoint] FastAPI başlatılıyor (port: 8080)..."
-exec uvicorn app.main:app --host 0.0.0.0 --port 8080 --log-level info
+exec uvicorn app.main:app --host 0.0.0.0 --port 8080 --log-level info --reload
