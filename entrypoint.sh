@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e  # Herhangi bir komut başarısız olursa dur
 
+echo "[Entrypoint] Baresip ses dosyası kontrol ediliyor..."
+ffmpeg -y -f lavfi -i anullsrc=r=8000:cl=mono -t 1 -acodec pcm_s16le /tmp/playback.wav >/dev/null 2>&1
+
 # ─────────────────────────────────────────────────────────────
 # Baresip'i arka planda (daemon) başlat
 # -f: yapılandırma dizini

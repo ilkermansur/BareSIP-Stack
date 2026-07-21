@@ -75,6 +75,9 @@ async def start_call(req: CallRequest):
     await tts.text_to_wav(req.welcome_text, "/tmp/welcome.wav", voice=req.voice)
     ivr.set_voice(req.voice)
 
+    # Baresip'in ses kaynağını aramadan önce hazır welcome.wav dosyasına ayarla
+    await baresip.send("ausrc", "aufile,/tmp/welcome.wav")
+
     basarili = await baresip.send("dial", req.to)
     if not basarili:
         raise HTTPException(500, "Baresip'e dial komutu gönderilemedi.")
