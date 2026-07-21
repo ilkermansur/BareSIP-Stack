@@ -20,5 +20,9 @@ sleep 2
 # FastAPI uygulamasını ön planda başlat
 # Konteyner FastAPI ile ayakta kalır; bu process ölürse konteyner durur
 # ─────────────────────────────────────────────────────────────
+# Python önbelleğini (__pycache__) temizle ki eski bytecode çalışmasın
+find /app/app -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+find /app/app -name "*.pyc" -delete 2>/dev/null || true
+
 echo "[Entrypoint] FastAPI başlatılıyor (port: 8080)..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8080 --log-level info --reload
