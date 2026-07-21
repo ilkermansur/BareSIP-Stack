@@ -11,8 +11,8 @@ rtp_ports               40000-40100
 # Audio settings
 # Initially set to a dummy path, our FastAPI app will change this dynamically
 audio_source            aufile,/tmp/playback.wav
-audio_player            null,
-audio_alert             null,
+audio_player            null
+audio_alert             null
 
 # Video settings (disabled)
 video_source            none
