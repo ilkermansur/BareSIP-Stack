@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  baresip-ivr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: baresip-ivr:stable        # İmaj adı — build sonrası değişmez
+    container_name: baresip_ivr
+    network_mode: "host"             # SIP + RTP için zorunlu
+    restart: unless-stopped
+
+    volumes:
+      # ── Uygulama Kodu ────────────────────────────────────────────────────────
+      # Python IVR mantığı — ivr.py'daki DTMF menüsünü düzenleyip
+      # konteyneri yeniden başlatmak yeterlidir (rebuild gerekmez)
+      - ./app:/app/app:ro
+
+      # ── Piper Ses Modelleri ───────────────────────────────────────────────────
+      # voices/ dizinine farklı dil modelleri ekleyebilirsiniz.
+      # İndirme için: ./download_voices.sh çalıştırın
+      - ./voices:/app/voices:ro
+
+      # ── Baresip Yapılandırması ────────────────────────────────────────────────
+      # Baresip modülleri, RTP portları, ses formatı ayarları
+      - ./config:/root/.baresip/config:ro
+
+      # ── SIP Hesap Bilgileri ───────────────────────────────────────────────────
+      # SIP sunucu adresi, dahili no, şifre
+      - ./accounts:/root/.baresip/accounts:ro
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

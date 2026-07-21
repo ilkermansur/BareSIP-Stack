@@ -1,0 +1,37 @@
+# Baresip Configuration File
+
+# Core settings
+poll_method             epoll
+
+# SIP transports and ports
+sip_transports          udp,tcp
+sip_listen              0.0.0.0:5060
+rtp_ports               40000-40100
+
+# Audio settings
+# Initially set to a dummy path, our FastAPI app will change this dynamically
+audio_source            aufile,/tmp/playback.wav
+audio_player            null,
+audio_alert             null,
+
+# Video settings (disabled)
+video_source            none
+video_display           none
+
+# Module paths (compiled modules location)
+module_path             /usr/local/lib/baresip/modules
+
+# Core Modules
+module                  menu.so
+module                  contact.so
+
+# Audio driver and format modules
+module                  aufile.so
+module                  g711.so
+module                  g722.so
+
+# Control Interface Modules
+module                  ctrl_tcp.so
+
+# ctrl_tcp settings
+ctrl_tcp_listen         127.0.0.1:4444

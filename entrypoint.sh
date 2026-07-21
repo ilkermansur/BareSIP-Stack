@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e  # Herhangi bir komut başarısız olursa dur
+
+# ─────────────────────────────────────────────────────────────
+# Baresip'i arka planda (daemon) başlat
+# -f: yapılandırma dizini
+# -d: daemon modu (arka planda çalış)
+# ─────────────────────────────────────────────────────────────
+echo "[Entrypoint] Baresip başlatılıyor..."
+baresip -f /root/.baresip -d
+
+# Baresip'in TCP kontrol portunu (4444) açması için kısa bekleme
+echo "[Entrypoint] Baresip'in başlaması için 2 saniye bekleniyor..."
+sleep 2
+
+# ─────────────────────────────────────────────────────────────
+# FastAPI uygulamasını ön planda başlat
+# Konteyner FastAPI ile ayakta kalır; bu process ölürse konteyner durur
+# ─────────────────────────────────────────────────────────────
+echo "[Entrypoint] FastAPI başlatılıyor (port: 8080)..."
+exec uvicorn app.main:app --host 0.0.0.0 --port 8080 --log-level info

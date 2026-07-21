@@ -1,0 +1,9 @@
+# Baresip Accounts File
+# Each account should be configured on a single line.
+# Format: <sip:username@domain>;auth_pass=password;transport=udp
+
+# Örnek Kayıt Satırı (Yerel SIP Sunucu / Asterisk için):
+# <sip:1001@127.0.0.1>;auth_pass=1001sifre;transport=udp
+
+# Aşağıdaki satır, harici tescil yapmadan (direct IP dial) arama yapabilmek için varsayılan bir hesap tanımlar:
+<sip:baresip@127.0.0.1>;regint=0;auth_pass=baresip;transport=udp
