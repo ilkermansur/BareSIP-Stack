@@ -13,6 +13,7 @@
 ## 🌟 Key Features
 
 * **Static & Anonymous Container Architecture**: The Docker image contains *only* runtime tools (Baresip, Piper, FFmpeg, Python venv). Your application code (`app/`), configurations (`config`, `accounts`), and voice models (`voices/`) are bind-mounted read-only (`:ro`). Zero user credentials or application logic are baked into the container.
+* **Pre-built Docker Hub Image**: Ready-to-use multi-arch image (`imansur/baresip-ivr:latest`) available for instant 5-second deployments without compiling from source.
 * **Modular Python Application**: Cleanly separated into specialized modules (`baresip.py`, `tts.py`, `ivr.py`, `main.py`).
 * **Multi-Voice TTS Support**: Pre-configured with named voice models (`fettah`, `eren`, `cem`, `hfc_male`, `hfc_female`) supporting both Turkish and English, with per-call or per-DTMF voice selection.
 * **Real-time DTMF & Event Handling**: Listens to Baresip's local TCP netstring control interface (`ctrl_tcp_listen`) to handle call establishment, DTMF keypresses, and call hangup events in real time.
@@ -25,7 +26,9 @@
 ```text
 bareSIP/
 ├── Dockerfile            # Multi-stage, platform-aware container build
-├── docker-compose.yml    # Service definitions and read-only bind mounts
+├── docker-compose.yml    # Build from source code composition
+├── single_image.yml      # Run pre-built Docker Hub image (imansur/baresip-ivr:latest)
+├── docker-compose.hub.yml# Alias for single_image.yml
 ├── entrypoint.sh         # Container startup script (Baresip daemon + FastAPI)
 ├── download_voices.sh    # Script to download Piper TTS voice models to host
 ├── config                # Headless Baresip configuration (bind-mounted)
@@ -60,19 +63,36 @@ Edit the `accounts` file with your SIP provider or local PBX credentials:
 ```
 *Example:* `<sip:1001@192.168.1.100>;auth_pass=MySecretPass;transport=udp`
 
-### 3. Build & Run with Docker Compose
-Build the image and launch the container in the background:
+---
+
+### 3. Launch Container
+
+Choose **Option A** (Instant pre-built image) or **Option B** (Build from source code):
+
+#### 🔹 Option A: Use Pre-built Docker Hub Image (Recommended — 5 Seconds)
+Uses the official pre-compiled multi-arch image `imansur/baresip-ivr:latest`:
 
 ```bash
-docker-compose build
-docker-compose up -d
+docker compose -f single_image.yml up -d
+# or
+docker compose -f docker-compose.hub.yml up -d
 ```
+
+#### 🔸 Option B: Build from Source Code
+Compiles Baresip and builds the container locally on your machine:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+---
 
 ### 4. Monitor Logs
 Verify that Baresip connected to your SIP server and FastAPI started:
 
 ```bash
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ---
@@ -165,7 +185,7 @@ DTMF_MENU = {
 }
 ```
 
-Since application files are bind-mounted, simply run `docker-compose restart` to apply code or IVR changes — **no image rebuild required!**
+Since application files are bind-mounted, simply run `docker compose restart` to apply code or IVR changes — **no image rebuild required!**
 
 ---
 
