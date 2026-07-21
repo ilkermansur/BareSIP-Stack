@@ -9,8 +9,8 @@ sip_listen              0.0.0.0:5060
 rtp_ports               40000-40100
 
 # Audio settings
-# Initially set to a dummy path, our FastAPI app will change this dynamically
-audio_source            aufile,/tmp/playback.wav
+# Default audio source points to /tmp/welcome.wav
+audio_source            aufile,/tmp/welcome.wav
 audio_player            null
 audio_alert             null
 

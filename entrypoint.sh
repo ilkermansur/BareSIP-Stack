@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e  # Herhangi bir komut başarısız olursa dur
 
-echo "[Entrypoint] Baresip ses dosyası kontrol ediliyor..."
+echo "[Entrypoint] Baresip varsayılan ses dosyaları oluşturuluyor..."
+ffmpeg -y -f lavfi -i anullsrc=r=8000:cl=mono -t 1 -acodec pcm_s16le /tmp/welcome.wav >/dev/null 2>&1
 ffmpeg -y -f lavfi -i anullsrc=r=8000:cl=mono -t 1 -acodec pcm_s16le /tmp/playback.wav >/dev/null 2>&1
 
 # ─────────────────────────────────────────────────────────────
